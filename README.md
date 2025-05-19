@@ -1,0 +1,2 @@
+# PHILOSOPHERS
+my philosophers project 🧑‍💻
