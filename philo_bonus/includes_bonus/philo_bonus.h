@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:52:40 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/19 22:52:54 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:52:08 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <sys/wait.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <signal.h>
+
+# define SEM_FORKS "/sem_forks"
+# define SEM_PRINT "/sem_print"
+# define SEM_ENDING "/sem_ending"
 
 typedef struct s_philo	t_philo;
 
@@ -32,20 +40,20 @@ typedef struct s_table
 	long			start_simulation;
 	int				end_simulation;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	print;
-	pthread_mutex_t	ending;
+	pid_t			*pids;
+	sem_t			*forks;
+	sem_t			*print;
+	sem_t			*ending;
 	pthread_t		monitor;
 }	t_table;
 
 typedef struct s_philo
 {
 	int				id;
-	int				right_fork;
-	int				left_fork;
 	long			meal_counter;
 	long			last_meal;
-	pthread_t		thread;
+	pid_t			pid;
+	pthread_t		t;
 	t_table			*data;
 }	t_philo;
 
@@ -56,7 +64,7 @@ int		ft_atoi(const char *str);
 int		ft_isnumber(char *str);
 long	ft_get_time(void);
 
+void	ft_philo_routine(t_philo *philo);
 void	*ft_monitor_routine(void *arg);
-void	*ft_philo_routine(void *arg);
 
 #endif

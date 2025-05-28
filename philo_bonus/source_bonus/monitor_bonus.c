@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor.c                                          :+:      :+:    :+:   */
+/*   monitor_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 23:33:20 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/27 15:20:37 by lserghin         ###   ########.fr       */
+/*   Created: 2025/05/19 22:55:46 by lserghin          #+#    #+#             */
+/*   Updated: 2025/05/24 20:24:17 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static int	ft_check_death(t_table *data)
 {
@@ -19,20 +19,20 @@ static int	ft_check_death(t_table *data)
 	current_philo = data->philos;
 	while (current_philo < data->philos + data->num_of_philos)
 	{
-		pthread_mutex_lock(&data->ending);
+	    sem_wait(data->ending);
 		if (data->end_simulation)
 		{
-			pthread_mutex_unlock(&data->ending);
+			sem_post(data->ending);
 			return (0);
 		}
 		if (ft_get_time() - current_philo->last_meal >= data->time_to_die)
 		{
 			ft_print_status(current_philo, "died");
 			data->end_simulation = 1;
-			pthread_mutex_unlock(&data->ending);
+			sem_post(data->ending);
 			return (0);
 		}
-		pthread_mutex_unlock(&data->ending);
+		sem_post(data->ending);
 		current_philo++;
 	}
 	return (1);
@@ -47,7 +47,6 @@ static int	ft_check_meals(t_table *data)
 		return (1);
 	current_philo = data->philos;
 	full_philos = 0;
-	pthread_mutex_lock(&data->ending);
 	while (current_philo < data->philos + data->num_of_philos)
 	{
 		if (current_philo->meal_counter >= data->must_eat)
@@ -56,11 +55,11 @@ static int	ft_check_meals(t_table *data)
 	}
 	if (full_philos == data->num_of_philos)
 	{
+		sem_wait(data->ending);
 		data->end_simulation = 1;
-		pthread_mutex_unlock(&data->ending);
+		sem_post(data->ending);
 		return (0);
 	}
-	pthread_mutex_unlock(&data->ending);
 	return (1);
 }
 

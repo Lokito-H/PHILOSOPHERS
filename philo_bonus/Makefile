@@ -6,7 +6,7 @@
 #    By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 22:55:05 by lserghin          #+#    #+#              #
-#    Updated: 2025/05/19 22:57:02 by lserghin         ###   ########.fr        #
+#    Updated: 2025/05/24 19:00:39 by lserghin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LFLAGS = -I./includes_bonus
 
 OBJS_DIR = object_bonus
 
-SRCS = source_bonus/main.c source_bonus/inits.c source_bonus/utils.c source_bonus/philo.c source_bonus/monitor.c
+SRCS = source_bonus/main_bonus.c source_bonus/utils_bonus.c source_bonus/inits_bonus.c source_bonus/philo_bonus.c source_bonus/monitor_bonus.c
 OBJS = $(SRCS:source_bonus/%.c=$(OBJS_DIR)/%.o)
 
 all: $(NAME)

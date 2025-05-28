@@ -6,7 +6,7 @@
 #    By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 23:34:55 by lserghin          #+#    #+#              #
-#    Updated: 2025/05/19 22:53:39 by lserghin         ###   ########.fr        #
+#    Updated: 2025/05/27 14:49:28 by lserghin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,21 +14,21 @@ NAME = philo
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-LFLAGS = -I./includes
+INCLUDE = -I./includes
 
 OBJS_DIR = object
 
-SRCS = source/main.c source/inits.c source/utils.c source/philo.c source/monitor.c
+SRCS = source/main.c source/utils.c source/inits.c source/philo.c source/monitor.c
 OBJS = $(SRCS:source/%.c=$(OBJS_DIR)/%.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(LFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -o $(NAME)
 
 $(OBJS_DIR)/%.o: source/%.c
 	mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) $(LFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	
 clean:
 	rm -rf $(OBJS_DIR)

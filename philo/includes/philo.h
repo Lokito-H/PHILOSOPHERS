@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:35:10 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/19 23:00:28 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:22:22 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <string.h>
 
 typedef struct s_philo	t_philo;
 
