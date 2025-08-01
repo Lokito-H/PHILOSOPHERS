@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:32:55 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 16:43:54 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:04:59 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	ft_check_input(int argc, char **argv)
 		return (0);
 	}
 	argv_ptr = argv + 1;
-	while (argc-- > 1)
+	while (argv_ptr < argv + argc)
 	{
 		if (!ft_isnumber(*argv_ptr))
 		{

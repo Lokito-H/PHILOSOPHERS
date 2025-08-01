@@ -6,7 +6,7 @@
 #    By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 22:55:05 by lserghin          #+#    #+#              #
-#    Updated: 2025/05/24 19:00:39 by lserghin         ###   ########.fr        #
+#    Updated: 2025/08/01 16:50:16 by lserghin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo_bonus
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-LFLAGS = -I./includes_bonus
+LFLAGS = -I./include_bonus
 
 OBJS_DIR = object_bonus
 

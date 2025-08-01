@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:55:17 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/27 17:29:26 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:10:30 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,29 @@ static void	ft_cleanup(t_table *data)
 
 static int	ft_check_input(int argc, char **argv)
 {
-	int	index;
+	char	**argv_ptr;
 
 	if (argc != 5 && argc != 6)
 	{
-		printf("Usage\n./philo n_philos t_die t_eat t_sleep [must_eat].\n");
+		ft_putstr_fd("Usage\n./philo n_philos t_die t_eat t_sleep [m_eat].\n", 2);
 		return (0);
 	}
-	index = 1;
-	while (index < argc)
+	argv_ptr = argv + 1;
+	while (argv_ptr < argv + argc)
 	{
-		if (!ft_isnumber(*(argv + index)))
+		if (!ft_isnumber(*argv_ptr))
 		{
-			printf("Error\nArgument %d must contain only digits.\n", index);
-			return (0);
+			ft_putstr_fd("Error\n", 2);
+			ft_putstr_fd(*argv_ptr, 2);
+			return (ft_putstr_fd(" must contain only digits.\n", 2), 0);
 		}
-		if (ft_atoi(*(argv + index)) <= 0)
+		if (ft_atoi(*argv_ptr) <= 0)
 		{
-			printf("Error\nArgument %d must be a positive number.\n", index);
-			return (0);
+			ft_putstr_fd("Error\n", 2);
+			ft_putstr_fd(*argv_ptr, 2);
+			return (ft_putstr_fd(" must be a positive number.\n", 2), 0);
 		}
-		index++;
+		argv_ptr++;
 	}
 	return (1);
 }
@@ -55,27 +57,30 @@ static int	ft_check_input(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_table	data;
-	t_philo *current_philo;
+	t_philo *philo_ptr;
+	pid_t	*pid_ptr;
 	int		status;
 	
 	if (!ft_check_input(argc, argv) || !ft_init_data(&data, argc, argv))
 		return (1);
-	current_philo = data.philos;
-	while (current_philo < data.philos + data.num_of_philos)
+	philo_ptr = data.philos;
+	pid_ptr = philo_ptr->pid
+	while (philo_ptr < data.philos + data.num_of_philos)
 	{
-		current_philo->pid = fork();
-		if (!current_philo->pid)
-			ft_philo_routine(current_philo);
-		else if(current_philo->pid < 0)
+		*pid_ptr = fork();
+		if (!*pid_ptr)
+			ft_philo_routine(philo_ptr);
+		else if(*pid_ptr < 0)
 			return (printf("Error\nFork failed\n"), 1);
-		current_philo++;
+		philo_ptr++;
+		pid_ptr++;
 	}
 	waitpid(-1, &status, 0);
-	current_philo = data.philos;
-	while (current_philo < data.philos + data.num_of_philos)
-		waitpid(current_philo++->pid, NULL, 0);
-	current_philo = data.philos;
-	while (current_philo < data.philos + data.num_of_philos)
-		kill(current_philo++->pid, SIGKILL);
+	philo_ptr = data.philos;
+	while (philo_ptr < data.philos + data.num_of_philos)
+		waitpid(philo_ptr++->pid, NULL, 0);
+	philo_ptr = data.philos;
+	while (philo_ptr < data.philos + data.num_of_philos)
+		kill(philo_ptr++->pid, SIGKILL);
 	return (ft_cleanup(&data), 0);
 }
