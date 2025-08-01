@@ -6,23 +6,36 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:32:55 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/27 13:07:39 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:10:42 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	ft_cleanup(t_table *data)
+static void	ft_cleanup(t_data *data, t_philo *philo_fail)
 {
-	pthread_mutex_t	*current_fork;
+	pthread_mutex_t	*fork_ptr;
+	t_philo			*philo_ptr;
 
-	current_fork = data->forks;
-	while (current_fork < data->forks + data->num_of_philos)
-		pthread_mutex_destroy(current_fork++);
+	pthread_mutex_lock(&data->ending);
+	data->end_simulation = 1;
+	pthread_mutex_unlock(&data->ending);
+	if (philo_fail && data->philos)
+	{
+		philo_ptr = data->philos;
+		while (philo_ptr < philo_fail)
+			pthread_join((philo_ptr++)->thread, NULL);
+	}
+	if (data->forks)
+	{
+		fork_ptr = data->forks;
+		while (fork_ptr < data->forks + data->num_of_philos)
+			pthread_mutex_destroy(fork_ptr++);
+		free(data->forks);
+	}
 	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->ending);
-	if (data->forks)
-		free(data->forks);
+	pthread_mutex_destroy(&data->meal);
 	if (data->philos)
 		free(data->philos);
 	return ;
@@ -57,21 +70,20 @@ static int	ft_check_input(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	t_table	data;
+	t_data	data;
 	t_philo	*philo;
 
-	memset(&data, 0, sizeof(t_table));
+	memset(&data, 0, sizeof(t_data));
 	if (!ft_check_input(argc, argv) || !ft_init_data(&data, argc, argv))
 		return (1);
 	philo = data.philos;
 	while (philo < data.philos + data.num_of_philos)
 	{
 		if (pthread_create(&philo->thread, NULL, ft_philo_routine, philo))
-			return (1);
+			return (ft_cleanup(&data, philo), 1);
 		philo++;
 	}
-	if (pthread_create(&data.monitor, NULL, ft_monitor_routine, &data))
-		return (printf("Error\nFailed to create monitor thread"), 1);
+	pthread_create(&data.monitor, NULL, ft_monitor_routine, &data);
 	philo = data.philos;
 	while (philo < data.philos + data.num_of_philos)
 	{
@@ -80,6 +92,6 @@ int	main(int argc, char **argv)
 		philo++;
 	}
 	if (pthread_join(data.monitor, NULL))
-		return (printf("Error\nFailed to join monitor thread"), 1);
-	return (ft_cleanup(&data), 0);
+		return (1);
+	return (ft_cleanup(&data, NULL), 0);
 }

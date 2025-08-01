@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:55:29 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/24 20:56:06 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:04:42 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	ft_philo_routine(t_philo *philo)
 	{
 		sem_wait(sem_forks);
 		ft_print_status(philo, "has taken a fork");
-		sem_wait(sem_forks);
 		ft_print_status(philo, "has taken a fork");
+		sem_wait(sem_forks);
 		ft_print_status(philo, "is eating");
 		philo->last_meal = ft_get_time();
 		philo->meal_counter++;

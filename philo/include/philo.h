@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:35:10 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/27 17:22:22 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:09:26 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 typedef struct s_philo	t_philo;
 
-typedef struct s_table
+typedef struct s_data
 {
 	long			num_of_philos;
 	long			time_to_die;
@@ -36,8 +36,9 @@ typedef struct s_table
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	ending;
+	pthread_mutex_t	meal;
 	pthread_t		monitor;
-}	t_table;
+}	t_data;
 
 typedef struct s_philo
 {
@@ -47,17 +48,19 @@ typedef struct s_philo
 	long			meal_counter;
 	long			last_meal;
 	pthread_t		thread;
-	t_table			*data;
+	t_data			*data;
 }	t_philo;
 
-int		ft_init_data(t_table *data, int argc, char **argv);
-void	ft_safe_usleep(long duration_ms, t_table *data);
 void	ft_print_status(t_philo *philo, char *status);
-int		ft_atoi(const char *str);
-int		ft_isnumber(char *str);
-long	ft_get_time(void);
-
+void	ft_usleep(long duration_ms, t_data *data);
 void	*ft_monitor_routine(void *arg);
 void	*ft_philo_routine(void *arg);
+
+int		ft_init_data(t_data *data, int argc, char **argv);
+int		ft_simulation_ended(t_data *data);
+int		ft_atoi(const char *str);
+int		ft_isnumber(char *str);
+
+long	ft_gettime(void);
 
 #endif

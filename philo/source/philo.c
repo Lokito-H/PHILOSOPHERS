@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:24 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/27 13:11:31 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:09:45 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 static void	ft_sleeping_thinking(t_philo *philo)
 {
 	ft_print_status(philo, "is sleeping");
-	ft_safe_usleep(philo->data->time_to_sleep, philo->data);
+	ft_usleep(philo->data->time_to_sleep, philo->data);
 	ft_print_status(philo, "is thinking");
-	ft_safe_usleep(philo->data->time_to_eat, philo->data);
+	if (philo->data->num_of_philos % 2)
+		ft_usleep(1, philo->data);
 	return ;
 }
 
@@ -39,11 +40,11 @@ static void	ft_dropping_forks(t_philo *philo)
 static void	ft_eating(t_philo *philo)
 {
 	ft_print_status(philo, "is eating");
-	pthread_mutex_lock(&philo->data->ending);
-	philo->last_meal = ft_get_time();
+	pthread_mutex_lock(&philo->data->meal);
+	philo->last_meal = ft_gettime();
 	philo->meal_counter++;
-	pthread_mutex_unlock(&philo->data->ending);
-	ft_safe_usleep(philo->data->time_to_eat, philo->data);
+	pthread_mutex_unlock(&philo->data->meal);
+	ft_usleep(philo->data->time_to_eat, philo->data);
 	return ;
 }
 
@@ -76,12 +77,12 @@ void	*ft_philo_routine(void *arg)
 		pthread_mutex_lock(philo->data->forks + philo->right_fork);
 		ft_print_status(philo, "has taken a fork");
 		pthread_mutex_unlock(philo->data->forks + philo->right_fork);
-		ft_safe_usleep(philo->data->time_to_die, philo->data);
+		ft_usleep(philo->data->time_to_die, philo->data);
 		return (NULL);
 	}
 	if (!(philo->id % 2))
-		ft_safe_usleep(1, philo->data);
-	while (!philo->data->end_simulation)
+		ft_usleep(1, philo->data);
+	while (!ft_simulation_ended(philo->data))
 	{
 		ft_taking_forks(philo);
 		ft_eating(philo);

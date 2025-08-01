@@ -6,74 +6,73 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:20 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/27 15:20:37 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:16:00 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	ft_check_death(t_table *data)
+static int	ft_check_death(t_data *data)
 {
-	t_philo	*current_philo;
+	t_philo	*philo_ptr;
 
-	current_philo = data->philos;
-	while (current_philo < data->philos + data->num_of_philos)
+	philo_ptr = data->philos;
+	while (philo_ptr < data->philos + data->num_of_philos)
 	{
-		pthread_mutex_lock(&data->ending);
-		if (data->end_simulation)
+		pthread_mutex_lock(&data->meal);
+		if (ft_gettime() - philo_ptr->last_meal >= data->time_to_die)
 		{
-			pthread_mutex_unlock(&data->ending);
-			return (0);
-		}
-		if (ft_get_time() - current_philo->last_meal >= data->time_to_die)
-		{
-			ft_print_status(current_philo, "died");
+			ft_print_status(philo_ptr, "died");
+			pthread_mutex_lock(&data->ending);
 			data->end_simulation = 1;
 			pthread_mutex_unlock(&data->ending);
-			return (0);
+			return (pthread_mutex_unlock(&data->meal), 0);
 		}
-		pthread_mutex_unlock(&data->ending);
-		current_philo++;
+		pthread_mutex_unlock(&data->meal);
+		philo_ptr++;
 	}
 	return (1);
 }
 
-static int	ft_check_meals(t_table *data)
+static int	ft_check_meals(t_data *data)
 {
-	t_philo	*current_philo;
+	t_philo	*philo_ptr;
 	int		full_philos;
 
 	if (data->must_eat == -1)
 		return (1);
-	current_philo = data->philos;
+	philo_ptr = data->philos;
 	full_philos = 0;
-	pthread_mutex_lock(&data->ending);
-	while (current_philo < data->philos + data->num_of_philos)
+	while (philo_ptr < data->philos + data->num_of_philos)
 	{
-		if (current_philo->meal_counter >= data->must_eat)
+		pthread_mutex_lock(&data->meal);
+		if (philo_ptr->meal_counter >= data->must_eat)
 			full_philos++;
-		current_philo++;
+		pthread_mutex_unlock(&data->meal);
+		philo_ptr++;
 	}
 	if (full_philos == data->num_of_philos)
 	{
+		pthread_mutex_lock(&data->ending);
 		data->end_simulation = 1;
 		pthread_mutex_unlock(&data->ending);
 		return (0);
 	}
-	pthread_mutex_unlock(&data->ending);
 	return (1);
 }
 
 void	*ft_monitor_routine(void *arg)
 {
-	t_table	*data;
+	t_data	*data;
 
-	data = (t_table *)arg;
+	data = (t_data *)arg;
 	while (1337)
 	{
-		if (!ft_check_meals(data) || !ft_check_death(data))
+		if (ft_simulation_ended(data))
 			break ;
-		usleep(100);
+		if (!ft_check_death(data) || !ft_check_meals(data))
+			break ;
+		usleep(500);
 	}
 	return (NULL);
 }
