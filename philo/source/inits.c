@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:22 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 15:09:30 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:37:17 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_init_data(t_data *data, int argc, char **argv)
 	data->end_simulation = 0;
 	if (!ft_init_philos(data) || !ft_init_mutexes(data))
 	{
-		printf("Error\nFailed to initialize data.");
+		ft_putstr_fd("Error\nFailed to initialize data\n", 2);
 		return (0);
 	}
 	return (1);

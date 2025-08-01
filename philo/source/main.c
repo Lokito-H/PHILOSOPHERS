@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:32:55 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 16:10:42 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:43:54 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_cleanup(t_data *data, t_philo *philo_fail)
 	pthread_mutex_lock(&data->ending);
 	data->end_simulation = 1;
 	pthread_mutex_unlock(&data->ending);
-	if (philo_fail && data->philos)
+	if (philo_fail)
 	{
 		philo_ptr = data->philos;
 		while (philo_ptr < philo_fail)
@@ -43,27 +43,29 @@ static void	ft_cleanup(t_data *data, t_philo *philo_fail)
 
 static int	ft_check_input(int argc, char **argv)
 {
-	int	index;
+	char	**argv_ptr;
 
 	if (argc != 5 && argc != 6)
 	{
-		printf("Usage\n./philo n_philos t_die t_eat t_sleep [must_eat].\n");
+		ft_putstr_fd("Usage\n./philo n_philos t_die t_eat t_sleep [m_eat].\n", 2);
 		return (0);
 	}
-	index = 1;
-	while (index < argc)
+	argv_ptr = argv + 1;
+	while (argc-- > 1)
 	{
-		if (!ft_isnumber(*(argv + index)))
+		if (!ft_isnumber(*argv_ptr))
 		{
-			printf("Error\nArgument %d must contain only digits.\n", index);
-			return (0);
+			ft_putstr_fd("Error\n", 2);
+			ft_putstr_fd(*argv_ptr, 2);
+			return (ft_putstr_fd(" must contain only digits.\n", 2), 0);
 		}
-		if (ft_atoi(*(argv + index)) <= 0)
+		if (ft_atoi(*argv_ptr) <= 0)
 		{
-			printf("Error\nArgument %d must be a positive number.\n", index);
-			return (0);
+			ft_putstr_fd("Error\n", 2);
+			ft_putstr_fd(*argv_ptr, 2);
+			return (ft_putstr_fd(" must be a positive number.\n", 2), 0);
 		}
-		index++;
+		argv_ptr++;
 	}
 	return (1);
 }

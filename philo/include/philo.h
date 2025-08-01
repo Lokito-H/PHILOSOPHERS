@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:35:10 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 15:09:26 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:36:11 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_philo
 void	ft_print_status(t_philo *philo, char *status);
 void	ft_usleep(long duration_ms, t_data *data);
 void	*ft_monitor_routine(void *arg);
+void	ft_putstr_fd(char *s, int fd);
 void	*ft_philo_routine(void *arg);
 
 int		ft_init_data(t_data *data, int argc, char **argv);

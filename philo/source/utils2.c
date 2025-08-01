@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:32:12 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 16:20:25 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:40:32 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,13 @@ int	ft_atoi(const char *str)
 			return (-1);
 	}
 	return (num);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
+	return ;
 }
