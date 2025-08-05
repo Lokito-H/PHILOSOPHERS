@@ -6,13 +6,13 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:32:55 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 17:04:59 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:01:17 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	ft_cleanup(t_data *data, t_philo *philo_fail)
+void	ft_cleanup(t_data *data, t_philo *philo_fail)
 {
 	pthread_mutex_t	*fork_ptr;
 	t_philo			*philo_ptr;

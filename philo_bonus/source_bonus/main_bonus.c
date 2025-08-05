@@ -6,13 +6,13 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:55:17 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 17:10:30 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/05 20:01:43 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	ft_cleanup(t_table *data)
+static void	ft_cleanup(t_data *data)
 {
 	sem_close(data->forks);
 	sem_close(data->print);
@@ -22,6 +22,8 @@ static void	ft_cleanup(t_table *data)
 	sem_unlink(SEM_ENDING);
 	if (data->philos)
 		free(data->philos);
+	if (data->pids)
+		free(data->pids);
 	return ;
 }
 
@@ -56,31 +58,30 @@ static int	ft_check_input(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	t_table	data;
-	t_philo *philo_ptr;
+	t_data	data;
+	t_philo	*philo_ptr;
 	pid_t	*pid_ptr;
-	int		status;
-	
+
 	if (!ft_check_input(argc, argv) || !ft_init_data(&data, argc, argv))
 		return (1);
 	philo_ptr = data.philos;
-	pid_ptr = philo_ptr->pid
+	pid_ptr = data.pids;
 	while (philo_ptr < data.philos + data.num_of_philos)
 	{
 		*pid_ptr = fork();
 		if (!*pid_ptr)
+		{
 			ft_philo_routine(philo_ptr);
-		else if(*pid_ptr < 0)
+			exit(0);
+		}
+		else if (*pid_ptr < 0)
 			return (printf("Error\nFork failed\n"), 1);
 		philo_ptr++;
 		pid_ptr++;
 	}
-	waitpid(-1, &status, 0);
-	philo_ptr = data.philos;
-	while (philo_ptr < data.philos + data.num_of_philos)
-		waitpid(philo_ptr++->pid, NULL, 0);
-	philo_ptr = data.philos;
-	while (philo_ptr < data.philos + data.num_of_philos)
-		kill(philo_ptr++->pid, SIGKILL);
+	waitpid(-1, NULL, 0);
+	pid_ptr = data.pids;
+	while (pid_ptr < data.pids + data.num_of_philos)
+		kill(*pid_ptr++, SIGKILL);
 	return (ft_cleanup(&data), 0);
 }

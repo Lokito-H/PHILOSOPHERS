@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:35:10 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 16:36:11 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:11:15 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_philo
 	t_data			*data;
 }	t_philo;
 
+void	ft_cleanup(t_data *data, t_philo *philo_fail);
 void	ft_print_status(t_philo *philo, char *status);
 void	ft_usleep(long duration_ms, t_data *data);
 void	*ft_monitor_routine(void *arg);

@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:26 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 16:20:08 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/04 10:55:00 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_usleep(long duration_ms, t_data *data)
 	long	start;
 
 	start = ft_gettime();
-	while (ft_gettime() - start < duration_ms)
+	while (ft_gettime() - start <= duration_ms)
 	{
 		if (ft_simulation_ended(data))
 			break ;

@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:22 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 16:37:17 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:02:14 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	ft_init_mutexes(t_data *data)
 	while (fork_ptr < data->forks + data->num_of_philos)
 	{
 		if (pthread_mutex_init(fork_ptr, NULL))
-			return (0);
+			return (ft_cleanup(data, NULL), 0);
 		fork_ptr++;
 	}
 	if (pthread_mutex_init(&data->print, NULL))

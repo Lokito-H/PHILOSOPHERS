@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:24 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/01 15:09:45 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/04 12:55:29 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ static void	ft_sleeping_thinking(t_philo *philo)
 	ft_print_status(philo, "is sleeping");
 	ft_usleep(philo->data->time_to_sleep, philo->data);
 	ft_print_status(philo, "is thinking");
-	if (philo->data->num_of_philos % 2)
-		ft_usleep(1, philo->data);
+	if (philo->data->num_of_philos % 2
+		&& philo->data->time_to_eat >= philo->data->time_to_sleep)
+		ft_usleep(philo->data->time_to_eat, philo->data);
 	return ;
 }
 

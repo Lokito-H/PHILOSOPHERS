@@ -6,7 +6,7 @@
 /*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:56:05 by lserghin          #+#    #+#             */
-/*   Updated: 2025/05/24 14:35:56 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:10:03 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
-long	ft_get_time(void)
+long	ft_gettime(void)
 {
 	struct timeval	time;
 
@@ -57,13 +57,45 @@ long	ft_get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
+void	ft_usleep(long duration_ms)
+{
+	long	start;
+
+	start = ft_gettime();
+	while (ft_gettime() - start <= duration_ms)
+		usleep(500);
+	return ;
+}
+
 void	ft_print_status(t_philo *philo, char *status)
 {
 	long	time;
 
 	sem_wait(philo->data->print);
-	time = ft_get_time() - philo->data->start_simulation;
+	time = ft_gettime() - philo->data->start_simulation;
 	printf("%ld\t%d\t%s\n", time, philo->id, status);
-	sem_post(philo->data->print);
+	if (*status != 'd')
+		sem_post(philo->data->print);
+	return ;
+}
+
+int	ft_simulation_ended(t_data *data)
+{
+	int	is_ended;
+
+	is_ended = 0;
+	sem_wait(data->ending);
+	if (data->end_simulation)
+		is_ended = 1;
+	sem_post(data->ending);
+	return (is_ended);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
 	return ;
 }
