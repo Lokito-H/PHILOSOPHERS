@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:52:40 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/05 19:16:10 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:49:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_data
 	long			time_to_sleep;
 	long			must_eat;
 	long			start_simulation;
-	int				end_simulation;
 	t_philo			*philos;
 	pid_t			*pids;
 	sem_t			*forks;

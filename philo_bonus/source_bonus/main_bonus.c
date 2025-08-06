@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:55:17 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/05 20:01:43 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:48:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
+	return ;
+}
 
 static void	ft_cleanup(t_data *data)
 {
@@ -33,7 +42,7 @@ static int	ft_check_input(int argc, char **argv)
 
 	if (argc != 5 && argc != 6)
 	{
-		ft_putstr_fd("Usage\n./philo n_philos t_die t_eat t_sleep [m_eat].\n", 2);
+		ft_putstr_fd("./philo n_philos t_die t_eat t_sleep [m_eat].\n", 2);
 		return (0);
 	}
 	argv_ptr = argv + 1;
@@ -63,19 +72,20 @@ int	main(int argc, char **argv)
 	pid_t	*pid_ptr;
 
 	if (!ft_check_input(argc, argv) || !ft_init_data(&data, argc, argv))
-		return (1);
+		return (ft_cleanup(&data), 1);
 	philo_ptr = data.philos;
 	pid_ptr = data.pids;
 	while (philo_ptr < data.philos + data.num_of_philos)
 	{
 		*pid_ptr = fork();
 		if (!*pid_ptr)
-		{
-			ft_philo_routine(philo_ptr);
-			exit(0);
-		}
+			return (ft_philo_routine(philo_ptr), exit(0), 0);
 		else if (*pid_ptr < 0)
-			return (printf("Error\nFork failed\n"), 1);
+		{
+			while (pid_ptr-- >= data.pids)
+				kill(*pid_ptr, SIGKILL);
+			return (ft_cleanup(&data), 1);
+		}
 		philo_ptr++;
 		pid_ptr++;
 	}

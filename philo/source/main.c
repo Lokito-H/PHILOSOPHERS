@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:32:55 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/04 17:01:17 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:47:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	ft_check_input(int argc, char **argv)
 
 	if (argc != 5 && argc != 6)
 	{
-		ft_putstr_fd("Usage\n./philo n_philos t_die t_eat t_sleep [m_eat].\n", 2);
+		ft_putstr_fd("./philo n_philos t_die t_eat t_sleep [m_eat].\n", 2);
 		return (0);
 	}
 	argv_ptr = argv + 1;
@@ -77,7 +77,7 @@ int	main(int argc, char **argv)
 
 	memset(&data, 0, sizeof(t_data));
 	if (!ft_check_input(argc, argv) || !ft_init_data(&data, argc, argv))
-		return (1);
+		return (ft_cleanup(&data, NULL), 1);
 	philo = data.philos;
 	while (philo < data.philos + data.num_of_philos)
 	{

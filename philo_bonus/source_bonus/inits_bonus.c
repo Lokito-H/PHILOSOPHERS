@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:55:52 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/05 19:16:53 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:50:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	ft_init_data(t_data *data, int argc, char **argv)
 	if (argc == 6)
 		data->must_eat = ft_atoi(*(argv + 5));
 	data->start_simulation = ft_gettime();
-	data->end_simulation = 0;
 	if (!ft_init_philos(data) || !ft_init_semaphores(data))
 	{
 		ft_putstr_fd("Error\nFailed to initialize data.", 2);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:26 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/04 10:55:00 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:47:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "philo.h"
+#include "philo.h"
 
 long	ft_gettime(void)
 {

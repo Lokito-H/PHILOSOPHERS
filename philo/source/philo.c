@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:24 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/04 12:55:29 by lserghin         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:27:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	*ft_philo_routine(void *arg)
 	{
 		pthread_mutex_lock(philo->data->forks + philo->right_fork);
 		ft_print_status(philo, "has taken a fork");
-		pthread_mutex_unlock(philo->data->forks + philo->right_fork);
 		ft_usleep(philo->data->time_to_die, philo->data);
 		return (NULL);
 	}
