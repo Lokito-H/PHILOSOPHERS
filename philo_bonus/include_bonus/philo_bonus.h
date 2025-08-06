@@ -27,7 +27,6 @@
 # define SEM_FORKS "/sem_forks"
 # define SEM_PRINT "/sem_print"
 # define SEM_ENDING "/sem_ending"
-# define SEM_MEAL "/sem_meal"
 
 typedef struct s_philo	t_philo;
 
