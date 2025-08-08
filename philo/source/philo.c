@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:33:24 by lserghin          #+#    #+#             */
-/*   Updated: 2025/08/06 17:27:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/08 18:29:12 by lserghin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	*ft_philo_routine(void *arg)
 		ft_usleep(philo->data->time_to_die, philo->data);
 		return (NULL);
 	}
+	ft_print_status(philo, "is thinking");
 	if (!(philo->id % 2))
 		ft_usleep(1, philo->data);
 	while (!ft_simulation_ended(philo->data))

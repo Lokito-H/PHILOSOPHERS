@@ -6,14 +6,14 @@
 #    By: lserghin <lserghin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 23:34:55 by lserghin          #+#    #+#              #
-#    Updated: 2025/08/01 14:36:02 by lserghin         ###   ########.fr        #
+#    Updated: 2025/08/08 18:29:26 by lserghin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Wextra -Werror
 INCLUDE = -I./include
 
 OBJS_DIR = object
